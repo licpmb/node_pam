@@ -18,7 +18,7 @@ const getProducts = async (productId = null) => {
       console.log(data);
     }
   } catch (error) {
-    console.error("Error al realizar la solicitud GET:", error.message);
+    console.error("Se produjo el siguiente error al querer obtener los productos:", error.message);
   }
 };
 
@@ -36,7 +36,7 @@ const createProduct = async (title, price, category) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(productData), // Uso de spread para construir el body dinámicamente
+      body: JSON.stringify(productData), // Uso de spread para construir el body de forma dinámica
     });
 
     const data = await response.json();
@@ -44,10 +44,10 @@ const createProduct = async (title, price, category) => {
     if (!response.ok) {
       console.error("Error:", data);
     } else {
-      console.log("Producto creado con éxito:", { ...data }); // Uso de spread para mostrar el producto creado
+      console.log("El siguiente producto ha sido creado con éxito:", { ...data }); // Uso de spread para mostrar el producto creado
     }
   } catch (error) {
-    console.error("Error al realizar la solicitud POST:", error.message);
+    console.error("Se produjo el siguiente error al intentar crear el producto:", error.message);
   }
 };
 
@@ -61,20 +61,20 @@ const deleteProduct = async (productId) => {
     if (!response.ok) {
       console.error("Error:", await response.json());
     } else {
-      console.log(`Producto con ID ${productId} eliminado correctamente.`);
+      console.log(`El producto con ID ${productId} ha sido eliminado correctamente.`);
     }
   } catch (error) {
-    console.error("Error al realizar la solicitud DELETE:", error.message);
+    console.error("Se produjo el siguiente error al intentar eliminar el producto:", error.message);
   }
 };
 
-// Procesar argumentos de la terminal
+// Procesar argumentos
 const main = async () => {
   const [_, __, method, resource, ...args] = process.argv;
   const [resourceName, resourceId] = resource.split("/");
 
   if (resourceName !== "products") {
-    console.error("Recurso no válido. Solo se permite 'products'.");
+    console.error("Por favor, pruebe con 'products'.");
     return;
   }
 
@@ -89,7 +89,7 @@ const main = async () => {
         await createProduct(...args); // Uso de spread para pasar los argumentos
       } else {
         console.error(
-          "Uso incorrecto del comando POST. Debes ingresar: <title> <price> <category>"
+          "Para crear un producto debes ingresar la siguiente información: <title> <price> <category>"
         );
       }
       break;
@@ -99,14 +99,14 @@ const main = async () => {
         await deleteProduct(resourceId);
       } else {
         console.error(
-          "Uso incorrecto del comando DELETE. Debes ingresar un productId."
+          "Si desea eliminar un producto, debe proporcionar un productId."
         );
       }
       break;
 
     default:
       console.error(
-        "Comando no reconocido. Usa uno de los siguientes formatos:"
+        "No reconozco ese comando, por favor utilice uno de los siguientes formatos:"
       );
       console.log("GET products");
       console.log("GET products/<productId>");
@@ -116,5 +116,5 @@ const main = async () => {
   }
 };
 
-// Ejecutar el programa
+// Ejecuta el programa
 main();
